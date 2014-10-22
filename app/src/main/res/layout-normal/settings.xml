@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settingsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutSettingsPopUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/radioGroupGameModes"
+        android:layout_centerHorizontal="true"
+        android:text="Select A Game Mode"
+        android:textSize="@dimen/settings_text_size_normal" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupGameModes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checkBoxMuteSounds"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp">
+
+        <RadioButton
+            android:id="@+id/radioButtonClassic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_game_mode_classic_mode"
+            android:textSize="@dimen/settings_text_size_normal" />
+
+        <RadioButton
+            android:id="@+id/radioButtonKeepEmGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_game_mode_button_madness"
+            android:textSize="@dimen/settings_text_size_normal" />
+
+        <RadioButton
+            android:id="@+id/radioButtonButtonMash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_game_mode_button_mash"
+            android:textSize="@dimen/settings_text_size_normal" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonSettingSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBoxMuteSounds"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Save"
+        android:textSize="@dimen/settings_text_size_normal" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMuteSounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Mute Sounds"
+        android:textSize="@dimen/settings_text_size_normal" />
+
+</RelativeLayout>

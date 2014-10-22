@@ -1,0 +1,17 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="whack_a_button_normal_size">85dp</dimen>
+    <dimen name="whack_a_button_xlarge_size">145dp</dimen>
+
+    <dimen name="settings_text_size_normal">25sp</dimen>
+    <dimen name="settings_text_size_xlarge">35sp</dimen>
+
+    <dimen name="main_menu_text_size_normal">25sp</dimen>
+    <dimen name="main_menu_text_size_xlarge">35sp</dimen>
+
+    <dimen name="button_madness_xlarge_button_size_width">145dp</dimen>
+    <dimen name="button_madness_xlarge_button_size_height">145dp</dimen>
+</resources>

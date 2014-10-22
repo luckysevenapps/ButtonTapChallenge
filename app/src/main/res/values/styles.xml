@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Themes and styles allow you to separate your design from the content. This makes your app design consistent and easier to maintain.
+
+    A style is a collection of properties that specify how a widget looks.
+
+    A theme is a series of styles that are applied to an Activity or app
+
+    Built in Android Themes
+    1. Theme.Light : Prior to Android 3.0
+    2. Theme.Holo.Light : Introduced in Android API 11
+    3. Theme.Holo.Light.DarkActionBar : Introduced in Android API 14
+
+    Android 4.0 included the action bar that can display buttons as well
+
+    -->
+
+    <!-- Base application theme inherits the theme based on the Android API. -->
+    <!-- Base application theme. -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+
+        <!-- Customizations that won't be specific to any API go here -->
+
+    </style>
+
+</resources>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout_game_screen_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_game_top"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="9"
+        android:layout_margin="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewTimeLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|end"
+            android:textSize="30sp"
+            android:text="Time Left: " />
+
+        <TextView
+            android:id="@+id/textViewTimeLeftCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/textViewGameScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|end"
+            android:textSize="30sp"
+            android:text="Game Score: " />
+
+        <TextView
+            android:id="@+id/textViewGameScoreCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:text="0" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="1">
+
+        <ToggleButton
+            android:id="@+id/toggleButtonTopLeft"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textOff=""
+            android:textOn=""
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/classic_button_toggle_anim"/>
+
+        <ToggleButton
+            android:id="@+id/toggleButtonTopRight"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textOff=""
+            android:textOn=""
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/classic_button_toggle_anim"/>
+
+        <ToggleButton
+            android:id="@+id/toggleButtonBottomLeft"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textOff=""
+            android:textOn=""
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/classic_button_toggle_anim"/>
+
+        <ToggleButton
+            android:id="@+id/toggleButtonBottomRight"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:textOff=""
+            android:textOn=""
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:background="@drawable/classic_button_toggle_anim"/>
+
+        <ImageButton
+            android:id="@+id/imageButtonScoreButton"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:background="@drawable/classic_button_change_onclick"/>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time Is Up!"
+                android:layout_centerVertical="true"
+                android:id="@+id/textViewTimeIsUp"
+                android:textSize="60sp"
+                android:visibility="gone"
+                android:layout_above="@+id/imageButtonScoreButton"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+    </RelativeLayout>
+</LinearLayout>

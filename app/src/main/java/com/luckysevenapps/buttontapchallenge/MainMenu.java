@@ -44,6 +44,8 @@ public class MainMenu extends ActionBarActivity {
     String loadClassicModeHighScore;
     String loadKeepEmGreenGameScore;
     String loadKeepEmGreenHighScore;
+    String loadWhackAButtonGameScore;
+    String loadWhackAButtonHighScore;
 
 
     String selectedMode;
@@ -199,6 +201,11 @@ public class MainMenu extends ActionBarActivity {
                     startActivity(intent);
                 } else if(selectedMode == button_madness){
                     Intent intent = new Intent("com.luckysevenapps.buttontapchallenge.KEEPEMGREEN");
+                    intent.putExtra("Theme", selectedTheme);
+                    intent.putExtra("WindowTheme", resHelper);
+                    startActivity(intent);
+                } else if(selectedMode == whack_a_button){
+                    Intent intent = new Intent("com.luckysevenapps.buttontapchallenge.WHACKABUTTON");
                     intent.putExtra("Theme", selectedTheme);
                     intent.putExtra("WindowTheme", resHelper);
                     startActivity(intent);
@@ -503,14 +510,38 @@ public class MainMenu extends ActionBarActivity {
                 if (gameMedalHelperTwo < 4001) {
                     imageViewNewMedal.setVisibility(View.VISIBLE);
                 }
-            } else if (gameMedalHelperOne > 6000 && gameMedalHelperOne < 8001) {
+            } else if (gameMedalHelperOne > 6000 && gameMedalHelperOne < 6501) {
                 imageViewGameMedal.setBackgroundResource(R.drawable.gold_button_medal_x600);
                 if (gameMedalHelperTwo < 6001) {
                     imageViewNewMedal.setVisibility(View.VISIBLE);
                 }
-            } else if (gameMedalHelperOne > 8000) {
+            } else if (gameMedalHelperOne > 6500) {
                 imageViewGameMedal.setBackgroundResource(R.drawable.platinum_button_medal_x600);
-                if (gameMedalHelperTwo < 8000) {
+                if (gameMedalHelperTwo < 6500) {
+                    imageViewNewMedal.setVisibility(View.VISIBLE);
+                }
+            }
+        } else if(selectedMode == whack_a_button) {
+            if (gameMedalHelperOne < 51) {
+                imageViewGameMedal.setBackgroundResource(R.drawable.default_medal);
+            } else if (gameMedalHelperOne > 50 && gameMedalHelperOne < 76) {
+                imageViewGameMedal.setBackgroundResource(R.drawable.bronze_button_medal_x600);
+                if (gameMedalHelperTwo < 51) {
+                    imageViewNewMedal.setVisibility(View.VISIBLE);
+                }
+            } else if (gameMedalHelperOne > 75 && gameMedalHelperOne < 101) {
+                imageViewGameMedal.setBackgroundResource(R.drawable.silver_button_medal_x600);
+                if (gameMedalHelperTwo < 76) {
+                    imageViewNewMedal.setVisibility(View.VISIBLE);
+                }
+            } else if (gameMedalHelperOne > 100 && gameMedalHelperOne < 151) {
+                imageViewGameMedal.setBackgroundResource(R.drawable.gold_button_medal_x600);
+                if (gameMedalHelperTwo < 101) {
+                    imageViewNewMedal.setVisibility(View.VISIBLE);
+                }
+            } else if (gameMedalHelperOne > 150) {
+                imageViewGameMedal.setBackgroundResource(R.drawable.platinum_button_medal_x600);
+                if (gameMedalHelperTwo < 150) {
                     imageViewNewMedal.setVisibility(View.VISIBLE);
                 }
             }
@@ -527,6 +558,8 @@ public class MainMenu extends ActionBarActivity {
         gameEditor.putString("savedClassicModeHighScore", loadClassicModeHighScore);
         gameEditor.putString("savedKeepEmGreenGameScore", loadKeepEmGreenGameScore);
         gameEditor.putString("savedKeepEmGreenHighScore", loadKeepEmGreenHighScore);
+        gameEditor.putString("savedWhackAButtonGameScore", loadWhackAButtonGameScore);
+        gameEditor.putString("savedWhackAButtonHighScore", loadWhackAButtonHighScore);
         gameEditor.commit();
     }
 
@@ -539,10 +572,14 @@ public class MainMenu extends ActionBarActivity {
         loadClassicModeHighScore = gameFiles.getString("savedClassicModeHighScore", "0");
         loadKeepEmGreenGameScore = gameFiles.getString("savedKeepEmGreenGameScore", "0");
         loadKeepEmGreenHighScore = gameFiles.getString("savedKeepEmGreenHighScore", "0");
+        loadWhackAButtonGameScore = gameFiles.getString("savedWhackAButtonGameScore", "0");
+        loadWhackAButtonHighScore = gameFiles.getString("savedWhackAButtonHighScore", "0");
         if(selectedMode == classic_mode) {
             gameMedalHelperTwo = Integer.parseInt(loadClassicModeHighScore);
         } else if(selectedMode == button_madness) {
             gameMedalHelperTwo = Integer.parseInt(loadKeepEmGreenHighScore);
+        } else if(selectedMode == whack_a_button) {
+            gameMedalHelperTwo = Integer.parseInt(loadWhackAButtonHighScore);
         }
     }
 
@@ -569,6 +606,17 @@ public class MainMenu extends ActionBarActivity {
             } else {
                 textViewMainMenuHighScoreCounter.setText(loadKeepEmGreenHighScore);
                 gameMedalHelperOne = Integer.parseInt(loadKeepEmGreenHighScore);
+            }
+        } else if(selectedMode == whack_a_button) {
+            textViewMainMenuGameScoreCounter.setText(loadWhackAButtonGameScore);
+            if (Integer.parseInt(loadWhackAButtonHighScore) < Integer.parseInt(loadWhackAButtonGameScore)) {
+                loadWhackAButtonHighScore = loadWhackAButtonGameScore;
+                textViewMainMenuHighScoreCounter.setText(loadWhackAButtonHighScore);
+                gameMedalHelperOne = Integer.parseInt(loadWhackAButtonHighScore);
+                imageViewNewHighScore.setVisibility(View.VISIBLE);
+            } else {
+                textViewMainMenuHighScoreCounter.setText(loadWhackAButtonHighScore);
+                gameMedalHelperOne = Integer.parseInt(loadWhackAButtonHighScore);
             }
         }
 

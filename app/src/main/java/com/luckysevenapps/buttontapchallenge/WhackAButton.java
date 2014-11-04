@@ -15,36 +15,30 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.util.Random;
 
-public class WhackAButton extends Activity {
+
+public class WhackAButton extends Activity implements  View.OnClickListener {
     private String SAVED_GAME_FILES = "SAVED_GAME_FILES";
     SharedPreferences gameFiles;
     SharedPreferences.Editor gameEditor;
 
     boolean gameSounds;
 
-    String selectedMode;
+    private String selectedMode;
     private String selectedTheme;
 
-    private int buttonSleepTime = 6500;
-
-    private int buttonsOn = 0;
-    private int points;
     private String timeLeftSec;
-
-    private int toggleButtonSoundOn = 0;
-    private int toggleButtonSoundOff = 0;
     private int timerCountDownSoundTick = 0;
     int buttonScorePointSound = 0;
     private int timesUpBuzzerSound = 0;
 
-    SoundPool toggleButtonOn, toggleButtonOff, timerCountDownTick, buttonScorePoint, timesUpBuzzer;
+    SoundPool  timerCountDownTick, buttonScorePoint, timesUpBuzzer;
 
     MediaPlayer mp;
 
@@ -53,26 +47,9 @@ public class WhackAButton extends Activity {
     Handler handlerGameTimer = new Handler();
     Handler handlerFinishGame = new Handler();
 
-    Handler buttonHandler01 = new Handler();
-    Handler buttonHandler02 = new Handler();
-    Handler buttonHandler03 = new Handler();
-    Handler buttonHandler04 = new Handler();
-    Handler buttonHandler05 = new Handler();
-    Handler buttonHandler06 = new Handler();
-    Handler buttonHandler07 = new Handler();
-    Handler buttonHandler08 = new Handler();
-    Handler buttonHandler09 = new Handler();
-    Handler buttonHandler10 = new Handler();
-    Handler buttonHandler11 = new Handler();
-    Handler buttonHandler12 = new Handler();
-    Handler buttonHandler13 = new Handler();
-    Handler buttonHandler14 = new Handler();
-    Handler buttonHandler15 = new Handler();
-    Handler buttonHandler16 = new Handler();
-
     Runnable runnableGameTimer, runnableFinishGame;
 
-    CountDownTimer gameTimer, gameScoreCDT;
+    CountDownTimer gameTimer;
 
     private long countdownPeriod;
 
@@ -81,17 +58,52 @@ public class WhackAButton extends Activity {
 
     LinearLayout HUDLayout;
 
-    Button toggleButtonGame01, toggleButtonGame02, toggleButtonGame03, toggleButtonGame04
-            , toggleButtonGame05, toggleButtonGame06, toggleButtonGame07, toggleButtonGame08
-            , toggleButtonGame09, toggleButtonGame10, toggleButtonGame11, toggleButtonGame12
-            , toggleButtonGame13, toggleButtonGame14, toggleButtonGame15, toggleButtonGame16;
+    ImageButton button1, button2, button3, button4, button5, button6, button7, button8
+            , button9, button10, button11, button12, button13, button14, button15, button16;
 
-    Button[] buttons;
+    ImageButton[] buttons;
 
-    Runnable buttonRunnable01, buttonRunnable02, buttonRunnable03, buttonRunnable04
-            , buttonRunnable05, buttonRunnable06, buttonRunnable07, buttonRunnable08
-            , buttonRunnable09, buttonRunnable10, buttonRunnable11, buttonRunnable12
-            , buttonRunnable13, buttonRunnable14, buttonRunnable15, buttonRunnable16;
+    int points = 0;
+
+    int min = 1000;
+    int max = 1500;
+
+    Random rng1 = new Random();
+    Random rng2 = new Random();
+    Random rng3 = new Random();
+    Random rng4 = new Random();
+    Random rng5 = new Random();
+    Random rng6 = new Random();
+    Random rng7 = new Random();
+    Random rng8 = new Random();
+    Random rng9 = new Random();
+    Random rng10 = new Random();
+    Random rng11 = new Random();
+    Random rng12 = new Random();
+    Random rng13 = new Random();
+    Random rng14 = new Random();
+    Random rng15 = new Random();
+    Random rng16 = new Random();
+
+    Handler h1 = new Handler();
+    Handler h2 = new Handler();
+    Handler h3 = new Handler();
+    Handler h4 = new Handler();
+    Handler h5 = new Handler();
+    Handler h6 = new Handler();
+    Handler h7 = new Handler();
+    Handler h8 = new Handler();
+    Handler h9 = new Handler();
+    Handler h10 = new Handler();
+    Handler h11 = new Handler();
+    Handler h12 = new Handler();
+    Handler h13 = new Handler();
+    Handler h14 = new Handler();
+    Handler h15 = new Handler();
+    Handler h16 = new Handler();
+
+    Runnable r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16
+            ,r17, r18, r19, r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30, r31, r32;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +111,7 @@ public class WhackAButton extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setThemeLayout();
-        setContentView(R.layout.game_activity_button_madness);
+        setContentView(R.layout.game_activity_whack_a_button);
 
         loadData();
 
@@ -107,16 +119,16 @@ public class WhackAButton extends Activity {
         countdownPeriod = 26000;
 
         setUpSounds();
-
-
-        initializeWidgets();
+        setupWidgets();
         themeCheck();
-        setupRunnables();
-        setButtonOnClickListener();
         createCountDownTimer();
 
         gameTimer.start();
-        gameScoreCDT.start();
+
+        setupOnClickListeners();
+
+        setupRunnable();
+        startHandlers();
     }
 
     @Override
@@ -164,6 +176,597 @@ public class WhackAButton extends Activity {
         finish();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imageButtonScoreButton01:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button1.setVisibility(View.INVISIBLE);
+                h1.removeCallbacks(r1);
+                h1.removeCallbacks(r2);
+                h1.postDelayed(r1, rng1.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton02:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button2.setVisibility(View.INVISIBLE);
+                h2.removeCallbacks(r3);
+                h2.removeCallbacks(r4);
+                h2.postDelayed(r3, rng2.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton03:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button3.setVisibility(View.INVISIBLE);
+                h3.removeCallbacks(r5);
+                h3.removeCallbacks(r6);
+                h3.postDelayed(r5, rng3.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton04:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button4.setVisibility(View.INVISIBLE);
+                h4.removeCallbacks(r7);
+                h4.removeCallbacks(r8);
+                h4.postDelayed(r7, rng4.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton05:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button5.setVisibility(View.INVISIBLE);
+                h5.removeCallbacks(r9);
+                h5.removeCallbacks(r10);
+                h5.postDelayed(r9, rng5.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton06:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button6.setVisibility(View.INVISIBLE);
+                h6.removeCallbacks(r11);
+                h6.removeCallbacks(r12);
+                h6.postDelayed(r11, rng6.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton07:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button7.setVisibility(View.INVISIBLE);
+                h7.removeCallbacks(r13);
+                h7.removeCallbacks(r14);
+                h7.postDelayed(r13, rng7.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton08:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button8.setVisibility(View.INVISIBLE);
+                h8.removeCallbacks(r15);
+                h8.removeCallbacks(r16);
+                h8.postDelayed(r15, rng8.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton09:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button9.setVisibility(View.INVISIBLE);
+                h9.removeCallbacks(r17);
+                h9.removeCallbacks(r18);
+                h9.postDelayed(r17, rng9.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton10:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button10.setVisibility(View.INVISIBLE);
+                h10.removeCallbacks(r19);
+                h10.removeCallbacks(r20);
+                h10.postDelayed(r19, rng10.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton11:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button11.setVisibility(View.INVISIBLE);
+                h11.removeCallbacks(r21);
+                h11.removeCallbacks(r22);
+                h11.postDelayed(r21, rng11.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton12:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button12.setVisibility(View.INVISIBLE);
+                h12.removeCallbacks(r23);
+                h12.removeCallbacks(r24);
+                h12.postDelayed(r23, rng12.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton13:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button13.setVisibility(View.INVISIBLE);
+                h13.removeCallbacks(r25);
+                h13.removeCallbacks(r26);
+                h13.postDelayed(r25, rng13.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton14:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button14.setVisibility(View.INVISIBLE);
+                h14.removeCallbacks(r27);
+                h14.removeCallbacks(r28);
+                h14.postDelayed(r27, rng14.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton15:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button15.setVisibility(View.INVISIBLE);
+                h15.removeCallbacks(r29);
+                h15.removeCallbacks(r30);
+                h15.postDelayed(r29, rng15.nextInt(max - min + 1) + min);
+                break;
+
+            case R.id.imageButtonScoreButton16:
+                if(gameSounds) {
+                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
+                }
+                points++;
+                textViewGameScoreCounter.setText(String.valueOf(points));
+                button16.setVisibility(View.INVISIBLE);
+                h16.removeCallbacks(r31);
+                h16.removeCallbacks(r32);
+                h16.postDelayed(r31, rng16.nextInt(max - min + 1) + min);
+                break;
+        }
+    }
+
+    public void setupRunnable() {
+        runnableGameTimer = new Runnable() {
+            @Override
+            public void run() {
+                saveSettings();
+                intentSettingsCheck();
+                if (gameSounds) {
+                    releaseSoundResources();
+                }
+                finish();
+            }
+
+        };
+
+        runnableFinishGame = new Runnable() {
+            @Override
+            public void run() {
+                if (gameSounds) {
+                    timesUpBuzzer.play(timesUpBuzzerSound, 1, 1, 0, 0, 1);
+                    mp.release();
+                }
+                stopHandlerRunnables();
+                textViewTimeIsUp.setVisibility(View.VISIBLE);
+                textViewTimeLeft.setVisibility(View.GONE);
+                textViewTimeLeftCounter.setVisibility(View.GONE);
+                textViewGameScore.setVisibility(View.GONE);
+                textViewGameScoreCounter.setVisibility(View.GONE);
+                HUDLayout.setVisibility(View.GONE);
+                for (int i = 0; i < buttons.length; i++) {
+                    buttons[i].setVisibility(View.GONE);
+                }
+                timerCountDownTick.release();
+                buttonScorePoint.release();
+            }
+        };
+
+        r1 = new Runnable() {
+            @Override
+            public void run() {
+                button1.setVisibility(View.INVISIBLE);
+                h1.removeCallbacks(r1);
+                h1.postDelayed(r2, rng1.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r2 = new Runnable() {
+            @Override
+            public void run() {
+                button1.setVisibility(View.VISIBLE);
+                h1.removeCallbacks(r2);
+                h1.postDelayed(r1, rng1.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r3 = new Runnable() {
+            @Override
+            public void run() {
+                button2.setVisibility(View.INVISIBLE);
+                h2.removeCallbacks(r3);
+                h2.postDelayed(r4, rng2.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r4 = new Runnable() {
+            @Override
+            public void run() {
+                button2.setVisibility(View.VISIBLE);
+                h2.removeCallbacks(r4);
+                h2.postDelayed(r3, rng2.nextInt(1250));
+            }
+        };
+
+        r5 = new Runnable() {
+            @Override
+            public void run() {
+                button3.setVisibility(View.INVISIBLE);
+                h3.removeCallbacks(r5);
+                h3.postDelayed(r6, rng3.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r6 = new Runnable() {
+            @Override
+            public void run() {
+                button3.setVisibility(View.VISIBLE);
+                h3.removeCallbacks(r6);
+                h3.postDelayed(r5, rng3.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r7 = new Runnable() {
+            @Override
+            public void run() {
+                button4.setVisibility(View.INVISIBLE);
+                h4.removeCallbacks(r7);
+                h4.postDelayed(r8, rng4.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r8 = new Runnable() {
+            @Override
+            public void run() {
+                button4.setVisibility(View.INVISIBLE);
+                h4.removeCallbacks(r8);
+                h4.postDelayed(r7, rng4.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r9 = new Runnable() {
+            @Override
+            public void run() {
+                button5.setVisibility(View.INVISIBLE);
+                h5.removeCallbacks(r9);
+                h5.postDelayed(r10, rng5.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r10 = new Runnable() {
+            @Override
+            public void run() {
+                button5.setVisibility(View.VISIBLE);
+                h5.removeCallbacks(r10);
+                h5.postDelayed(r9, rng5.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r11 = new Runnable() {
+            @Override
+            public void run() {
+                button6.setVisibility(View.INVISIBLE);
+                h6.removeCallbacks(r11);
+                h6.postDelayed(r12, rng6.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r12 = new Runnable() {
+            @Override
+            public void run() {
+                button6.setVisibility(View.VISIBLE);
+                h6.removeCallbacks(r12);
+                h6.postDelayed(r11, rng6.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r13 = new Runnable() {
+            @Override
+            public void run() {
+                button7.setVisibility(View.INVISIBLE);
+                h7.removeCallbacks(r13);
+                h7.postDelayed(r14, rng7.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r14 = new Runnable() {
+            @Override
+            public void run() {
+                button7.setVisibility(View.VISIBLE);
+                h7.removeCallbacks(r14);
+                h7.postDelayed(r13, rng7.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r15 = new Runnable() {
+            @Override
+            public void run() {
+                button8.setVisibility(View.INVISIBLE);
+                h8.removeCallbacks(r15);
+                h8.postDelayed(r16, rng8.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r16 = new Runnable() {
+            @Override
+            public void run() {
+                button8.setVisibility(View.VISIBLE);
+                h8.removeCallbacks(r16);
+                h8.postDelayed(r15, rng8.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r17 = new Runnable() {
+            @Override
+            public void run() {
+                button9.setVisibility(View.INVISIBLE);
+                h9.removeCallbacks(r17);
+                h9.postDelayed(r18, rng9.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r18 = new Runnable() {
+            @Override
+            public void run() {
+                button9.setVisibility(View.VISIBLE);
+                h9.removeCallbacks(r18);
+                h9.postDelayed(r17, rng9.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r19 = new Runnable() {
+            @Override
+            public void run() {
+                button10.setVisibility(View.INVISIBLE);
+                h10.removeCallbacks(r19);
+                h10.postDelayed(r20, rng10.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r20 = new Runnable() {
+            @Override
+            public void run() {
+                button10.setVisibility(View.VISIBLE);
+                h10.removeCallbacks(r20);
+                h10.postDelayed(r19, rng10.nextInt(1250));
+            }
+        };
+
+        r21 = new Runnable() {
+            @Override
+            public void run() {
+                button11.setVisibility(View.INVISIBLE);
+                h11.removeCallbacks(r21);
+                h11.postDelayed(r22, rng11.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r22 = new Runnable() {
+            @Override
+            public void run() {
+                button11.setVisibility(View.VISIBLE);
+                h11.removeCallbacks(r22);
+                h11.postDelayed(r21, rng11.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r23 = new Runnable() {
+            @Override
+            public void run() {
+                button12.setVisibility(View.INVISIBLE);
+                h12.removeCallbacks(r23);
+                h12.postDelayed(r24, rng12.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r24 = new Runnable() {
+            @Override
+            public void run() {
+                button12.setVisibility(View.INVISIBLE);
+                h12.removeCallbacks(r24);
+                h12.postDelayed(r23, rng12.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r25 = new Runnable() {
+            @Override
+            public void run() {
+                button13.setVisibility(View.INVISIBLE);
+                h13.removeCallbacks(r25);
+                h13.postDelayed(r26, rng13.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r26 = new Runnable() {
+            @Override
+            public void run() {
+                button13.setVisibility(View.VISIBLE);
+                h13.removeCallbacks(r26);
+                h13.postDelayed(r25, rng13.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r27 = new Runnable() {
+            @Override
+            public void run() {
+                button14.setVisibility(View.INVISIBLE);
+                h14.removeCallbacks(r27);
+                h14.postDelayed(r28, rng14.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r28 = new Runnable() {
+            @Override
+            public void run() {
+                button14.setVisibility(View.VISIBLE);
+                h14.removeCallbacks(r28);
+                h14.postDelayed(r27, rng14.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r29 = new Runnable() {
+            @Override
+            public void run() {
+                button15.setVisibility(View.INVISIBLE);
+                h15.removeCallbacks(r29);
+                h15.postDelayed(r30, rng15.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r30 = new Runnable() {
+            @Override
+            public void run() {
+                button15.setVisibility(View.VISIBLE);
+                h15.removeCallbacks(r30);
+                h15.postDelayed(r29, rng15.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r31 = new Runnable() {
+            @Override
+            public void run() {
+                button16.setVisibility(View.INVISIBLE);
+                h16.removeCallbacks(r31);
+                h16.postDelayed(r32, rng16.nextInt(max - min + 1) + min);
+            }
+        };
+
+        r32 = new Runnable() {
+            @Override
+            public void run() {
+                button16.setVisibility(View.VISIBLE);
+                h16.removeCallbacks(r32);
+                h16.postDelayed(r31, rng16.nextInt(max - min + 1) + min);
+            }
+        };
+    }
+
+    public void startHandlers() {
+        h1.postDelayed(r1, rng1.nextInt(max - min + 1) + min);
+        h2.postDelayed(r3, rng2.nextInt(max - min + 1) + min);
+        h3.postDelayed(r5, rng3.nextInt(max - min + 1) + min);
+        h4.postDelayed(r7, rng4.nextInt(max - min + 1) + min);
+        h5.postDelayed(r9, rng5.nextInt(max - min + 1) + min);
+        h6.postDelayed(r11, rng6.nextInt(max - min + 1) + min);
+        h7.postDelayed(r13, rng7.nextInt(max - min + 1) + min);
+        h8.postDelayed(r15, rng8.nextInt(max - min + 1) + min);
+        h9.postDelayed(r17, rng9.nextInt(max - min + 1) + min);
+        h10.postDelayed(r19, rng10.nextInt(max - min + 1) + min);
+        h11.postDelayed(r21, rng11.nextInt(max - min + 1) + min);
+        h12.postDelayed(r23, rng12.nextInt(max - min + 1) + min);
+        h13.postDelayed(r25, rng13.nextInt(max - min + 1) + min);
+        h14.postDelayed(r27, rng14.nextInt(max - min + 1) + min);
+        h15.postDelayed(r29, rng15.nextInt(max - min + 1) + min);
+        h16.postDelayed(r31, rng16.nextInt(max - min + 1) + min);
+    }
+
+    public void setupOnClickListeners() {
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
+        button6.setOnClickListener(this);
+        button7.setOnClickListener(this);
+        button8.setOnClickListener(this);
+        button9.setOnClickListener(this);
+        button10.setOnClickListener(this);
+        button11.setOnClickListener(this);
+        button12.setOnClickListener(this);
+        button13.setOnClickListener(this);
+        button14.setOnClickListener(this);
+        button15.setOnClickListener(this);
+        button16.setOnClickListener(this);
+    }
+
+    public void setupWidgets() {
+        textViewTimeLeft = (TextView) findViewById(R.id.textViewTimeLeft);
+        textViewTimeLeftCounter = (TextView) findViewById(R.id.textViewTimeLeftCounter);
+        textViewGameScore = (TextView) findViewById(R.id.textViewGameScore);
+        textViewGameScoreCounter = (TextView) findViewById(R.id.textViewGameScoreCounter);
+        textViewTimeIsUp = (TextView) findViewById(R.id.textViewTimeIsUp);
+        HUDLayout = (LinearLayout) findViewById(R.id.layout_game_top);
+
+        button1 = (ImageButton) findViewById(R.id.imageButtonScoreButton01);
+        button2 = (ImageButton) findViewById(R.id.imageButtonScoreButton02);
+        button3 = (ImageButton) findViewById(R.id.imageButtonScoreButton03);
+        button4 = (ImageButton) findViewById(R.id.imageButtonScoreButton04);
+        button5 = (ImageButton) findViewById(R.id.imageButtonScoreButton05);
+        button6 = (ImageButton) findViewById(R.id.imageButtonScoreButton06);
+        button7 = (ImageButton) findViewById(R.id.imageButtonScoreButton07);
+        button8 = (ImageButton) findViewById(R.id.imageButtonScoreButton08);
+        button9 = (ImageButton) findViewById(R.id.imageButtonScoreButton09);
+        button10 = (ImageButton) findViewById(R.id.imageButtonScoreButton10);
+        button11 = (ImageButton) findViewById(R.id.imageButtonScoreButton11);
+        button12 = (ImageButton) findViewById(R.id.imageButtonScoreButton12);
+        button13 = (ImageButton) findViewById(R.id.imageButtonScoreButton13);
+        button14 = (ImageButton) findViewById(R.id.imageButtonScoreButton14);
+        button15 = (ImageButton) findViewById(R.id.imageButtonScoreButton15);
+        button16 = (ImageButton) findViewById(R.id.imageButtonScoreButton16);
+
+        buttons = new ImageButton[]{
+                button1, button2, button3, button4, button5, button6, button7, button8
+                , button9, button10, button11, button12, button13, button14, button15, button16
+        };
+    }
+
     private void setUpSounds() {
         timerCountDownTick = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         timerCountDownSoundTick = timerCountDownTick.load(this, R.raw.time_tick, 1);
@@ -206,8 +809,8 @@ public class WhackAButton extends Activity {
             viewGroup.setBackgroundResource(R.drawable.buttontapchallengebackgroundfaded);
             ViewGroup viewGroupTwo = (ViewGroup) findViewById(R.id.layout_game_top);
             viewGroupTwo.setBackgroundResource(R.drawable.default_score_frame_styles);
-            for (Button button : buttons) {
-                button.setBackgroundResource(R.drawable.classic_button_toggle_anim);
+            for (ImageButton button : buttons) {
+                button.setBackgroundResource(R.drawable.classic_button_change_onclick);
             }
         } else if ("Tmnt".equalsIgnoreCase(getIntent().getStringExtra("Theme"))) {
             Typeface typeface = Typeface.createFromAsset(getAssets(), "tmnt.ttf");
@@ -217,8 +820,8 @@ public class WhackAButton extends Activity {
             viewGroupTwo.setBackgroundResource(R.drawable.tmnt_score_frame_styles);
             setFont(viewGroup, typeface);
 
-            for (Button button : buttons) {
-                button.setBackgroundResource(R.drawable.tmnt_leo_button_toggle_anim);
+            for (ImageButton button : buttons) {
+                button.setBackgroundResource(R.drawable.tmnt_button_change_onclick);
             }
         } else if ("Batman".equalsIgnoreCase(getIntent().getStringExtra("Theme"))) {
             Typeface typeface = Typeface.createFromAsset(getAssets(), "batman.ttf");
@@ -227,8 +830,8 @@ public class WhackAButton extends Activity {
             ViewGroup viewGroupTwo = (ViewGroup) findViewById(R.id.layout_game_top);
             viewGroupTwo.setBackgroundResource(R.drawable.batman_score_frame_styles);
             setFont(viewGroup, typeface);
-            for (Button button : buttons) {
-                button.setBackgroundResource(R.drawable.batman_button_toggle_anim);
+            for (ImageButton button : buttons) {
+                button.setBackgroundResource(R.drawable.batman_button_change_onclick);
             }
         }
     }
@@ -251,13 +854,13 @@ public class WhackAButton extends Activity {
         gameEditor = gameFiles.edit();
         gameEditor.putString("savedSelectedMode", selectedMode);
         gameEditor.putString("savedSelectedTheme", selectedTheme);
-        gameEditor.putString("savedKeepEmGreenGameScore", textViewGameScoreCounter.getText().toString());
+        gameEditor.putString("savedWhackAButtonGameScore", textViewGameScoreCounter.getText().toString());
         gameEditor.commit();
     }
 
     private void loadData() {
         gameFiles = getSharedPreferences(SAVED_GAME_FILES, 5);
-        selectedMode = gameFiles.getString("savedSelectedMode", "keep_em_green");
+        selectedMode = gameFiles.getString("savedSelectedMode", "Whack A Button");
         gameSounds = gameFiles.getBoolean("gameSounds", true);
         selectedTheme = gameFiles.getString("savedSelectedTheme", "Default");
     }
@@ -279,69 +882,87 @@ public class WhackAButton extends Activity {
         if (handlerFinishGame != null) {
             handlerFinishGame.removeCallbacks(runnableGameTimer);
         }
+    }
 
-        if (buttonHandler01 != null) {
-            buttonHandler01.removeCallbacks(buttonRunnable01);
+    private void stopHandlerRunnables() {
+        if (h1 != null) {
+            h1.removeCallbacks(r1);
+            h1.removeCallbacks(r2);
         }
 
-        if (buttonHandler02 != null) {
-            buttonHandler02.removeCallbacks(buttonRunnable02);
+        if (h2 != null) {
+            h2.removeCallbacks(r3);
+            h2.removeCallbacks(r4);
         }
 
-        if (buttonHandler03 != null) {
-            buttonHandler03.removeCallbacks(buttonRunnable03);
+        if (h3 != null) {
+            h3.removeCallbacks(r5);
+            h3.removeCallbacks(r6);
         }
 
-        if (buttonHandler04 != null) {
-            buttonHandler04.removeCallbacks(buttonRunnable04);
+        if (h4 != null) {
+            h4.removeCallbacks(r7);
+            h4.removeCallbacks(r8);
         }
 
-        if (buttonHandler05 != null) {
-            buttonHandler05.removeCallbacks(buttonRunnable01);
+        if (h5 != null) {
+            h5.removeCallbacks(r9);
+            h5.removeCallbacks(r10);
         }
 
-        if (buttonHandler06 != null) {
-            buttonHandler06.removeCallbacks(buttonRunnable02);
+        if (h6 != null) {
+            h6.removeCallbacks(r11);
+            h6.removeCallbacks(r12);
         }
 
-        if (buttonHandler07 != null) {
-            buttonHandler07.removeCallbacks(buttonRunnable03);
+        if (h7 != null) {
+            h7.removeCallbacks(r13);
+            h7.removeCallbacks(r14);
         }
 
-        if (buttonHandler08 != null) {
-            buttonHandler08.removeCallbacks(buttonRunnable04);
+        if (h8 != null) {
+            h8.removeCallbacks(r15);
+            h8.removeCallbacks(r16);
         }
 
-        if (buttonHandler09 != null) {
-            buttonHandler09.removeCallbacks(buttonRunnable01);
+        if (h9 != null) {
+            h9.removeCallbacks(r17);
+            h9.removeCallbacks(r18);
         }
 
-        if (buttonHandler10 != null) {
-            buttonHandler10.removeCallbacks(buttonRunnable02);
+        if (h10 != null) {
+            h10.removeCallbacks(r19);
+            h10.removeCallbacks(r20);
         }
 
-        if (buttonHandler11 != null) {
-            buttonHandler11.removeCallbacks(buttonRunnable03);
+        if (h11 != null) {
+            h11.removeCallbacks(r21);
+            h11.removeCallbacks(r22);
         }
 
-        if (buttonHandler12 != null) {
-            buttonHandler12.removeCallbacks(buttonRunnable04);
+        if (h12 != null) {
+            h12.removeCallbacks(r23);
+            h12.removeCallbacks(r24);
         }
 
-        if (buttonHandler13 != null) {
-            buttonHandler13.removeCallbacks(buttonRunnable01);
+        if (h13 != null) {
+            h13.removeCallbacks(r25);
+            h13.removeCallbacks(r26);
         }
 
-        if (buttonHandler14 != null) {
-            buttonHandler14.removeCallbacks(buttonRunnable02);
+        if (h14 != null) {
+            h14.removeCallbacks(r27);
+            h14.removeCallbacks(r28);
         }
 
-        if (buttonHandler15 != null) {
-            buttonHandler15.removeCallbacks(buttonRunnable03);
+        if (h15 != null) {
+            h15.removeCallbacks(r29);
+            h15.removeCallbacks(r30);
         }
 
-        if (buttonHandler16 != null) {
-            buttonHandler16.removeCallbacks(buttonRunnable04);
+        if (h16 != null) {
+            h16.removeCallbacks(r31);
+            h16.removeCallbacks(r32);
         }
     }
 
@@ -367,397 +988,5 @@ public class WhackAButton extends Activity {
                 handlerFinishGame.postDelayed(runnableGameTimer, 2000);
             }
         };
-
-        gameScoreCDT = new CountDownTimer(countdownPeriod + 5000, 250) {
-            public void onTick(long millisUntilFinished) {
-                points += buttonsOn * 4;
-                textViewGameScoreCounter.setText(String.valueOf(points));
-                countdownPeriod = millisUntilFinished;
-            }
-
-            public void onFinish() {
-                gameScoreCDT.cancel();
-            }
-        };
-    }
-
-    private void initializeWidgets() {
-        textViewTimeLeft = (TextView) findViewById(R.id.textViewTimeLeft);
-        textViewTimeLeftCounter = (TextView) findViewById(R.id.textViewTimeLeftCounter);
-        textViewGameScore = (TextView) findViewById(R.id.textViewGameScore);
-        textViewGameScoreCounter = (TextView) findViewById(R.id.textViewGameScoreCounter);
-        textViewTimeIsUp = (TextView) findViewById(R.id.textViewTimeIsUp);
-        HUDLayout = (LinearLayout) findViewById(R.id.layout_game_top);
-
-        toggleButtonGame01 = (Button) findViewById(R.id.imageButtonScoreButton01);
-        toggleButtonGame02 = (Button) findViewById(R.id.imageButtonScoreButton02);
-        toggleButtonGame03 = (Button) findViewById(R.id.imageButtonScoreButton03);
-        toggleButtonGame04 = (Button) findViewById(R.id.imageButtonScoreButton04);
-        toggleButtonGame05 = (Button) findViewById(R.id.imageButtonScoreButton05);
-        toggleButtonGame06 = (Button) findViewById(R.id.imageButtonScoreButton06);
-        toggleButtonGame07 = (Button) findViewById(R.id.imageButtonScoreButton07);
-        toggleButtonGame08 = (Button) findViewById(R.id.imageButtonScoreButton08);
-        toggleButtonGame09 = (Button) findViewById(R.id.imageButtonScoreButton09);
-        toggleButtonGame10 = (Button) findViewById(R.id.imageButtonScoreButton10);
-        toggleButtonGame11 = (Button) findViewById(R.id.imageButtonScoreButton11);
-        toggleButtonGame12 = (Button) findViewById(R.id.imageButtonScoreButton12);
-        toggleButtonGame13 = (Button) findViewById(R.id.imageButtonScoreButton13);
-        toggleButtonGame14 = (Button) findViewById(R.id.imageButtonScoreButton14);
-        toggleButtonGame15 = (Button) findViewById(R.id.imageButtonScoreButton15);
-        toggleButtonGame16 = (Button) findViewById(R.id.imageButtonScoreButton16);
-
-        buttons = new Button[]{
-                toggleButtonGame01, toggleButtonGame02, toggleButtonGame03, toggleButtonGame04
-                , toggleButtonGame05, toggleButtonGame06, toggleButtonGame07, toggleButtonGame08
-                , toggleButtonGame09, toggleButtonGame10, toggleButtonGame11, toggleButtonGame12
-                , toggleButtonGame13, toggleButtonGame14, toggleButtonGame15, toggleButtonGame16
-        };
-    }
-
-    private void setupRunnables() {
-        runnableGameTimer = new Runnable() {
-            @Override
-            public void run() {
-                saveSettings();
-                intentSettingsCheck();
-                if (gameSounds) {
-                    releaseSoundResources();
-                }
-                finish();
-            }
-
-        };
-
-        runnableFinishGame = new Runnable() {
-            @Override
-            public void run() {
-                if (gameSounds) {
-                    timesUpBuzzer.play(timesUpBuzzerSound, 1, 1, 0, 0, 1);
-                    mp.release();
-                }
-                textViewTimeIsUp.setVisibility(View.VISIBLE);
-                for (Button button : buttons) {
-                    button.setVisibility(View.GONE);
-                }
-                textViewTimeLeft.setVisibility(View.GONE);
-                textViewTimeLeftCounter.setVisibility(View.GONE);
-                textViewGameScore.setVisibility(View.GONE);
-                textViewGameScoreCounter.setVisibility(View.GONE);
-                HUDLayout.setVisibility(View.GONE);
-                for (int i = 0; i < buttons.length; i++) {
-                    buttons[i].setVisibility(View.GONE);
-                }
-                timerCountDownTick.release();
-                buttonScorePoint.release();
-            }
-        };
-
-        buttonRunnable01 = new Runnable() {
-            @Override
-            public void run() {
-                toggleButtonGame01.setVisibility(View.GONE);
-            }
-        };
-
-
-        buttonRunnable02 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable03 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable04 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable05 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-
-        buttonRunnable06 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable07 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable08 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable09 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-
-        buttonRunnable10 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable11 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable12 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable13 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-
-        buttonRunnable14 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable15 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-
-        buttonRunnable16 = new Runnable() {
-            @Override
-            public void run() {
-            }
-        };
-    }
-
-    private void setButtonOnClickListener() {
-        toggleButtonGame01.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(gameSounds) {
-                    buttonScorePoint.play(buttonScorePointSound, 1, 1, 0, 0, 1);
-                }
-                buttonHandler01.postDelayed(buttonRunnable01, randomTimer.nextInt(buttonSleepTime));
-                buttonHandler01.removeCallbacks(buttonRunnable01);
-            }
-        });
-
-        toggleButtonGame02.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame02.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler02.postDelayed(buttonRunnable02, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler02.removeCallbacks(buttonRunnable02);
-                }
-            }
-        });
-
-        toggleButtonGame03.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame03.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler03.postDelayed(buttonRunnable03, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler03.removeCallbacks(buttonRunnable03);
-                }
-            }
-        });
-
-        toggleButtonGame04.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame04.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler04.postDelayed(buttonRunnable04, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler04.removeCallbacks(buttonRunnable04);
-                }
-            }
-        });
-
-        toggleButtonGame05.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame05.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler05.postDelayed(buttonRunnable05, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler05.removeCallbacks(buttonRunnable05);
-                }
-            }
-        });
-
-        toggleButtonGame06.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame06.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler06.postDelayed(buttonRunnable06, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler06.removeCallbacks(buttonRunnable06);
-                }
-            }
-        });
-
-        toggleButtonGame07.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame07.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler07.postDelayed(buttonRunnable07, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler07.removeCallbacks(buttonRunnable07);
-                }
-            }
-        });
-
-        toggleButtonGame08.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame08.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler08.postDelayed(buttonRunnable08, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler08.removeCallbacks(buttonRunnable08);
-                }
-            }
-        });
-
-        toggleButtonGame09.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame09.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler09.postDelayed(buttonRunnable09, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler09.removeCallbacks(buttonRunnable09);
-                }
-            }
-        });
-
-        toggleButtonGame10.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame10.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler10.postDelayed(buttonRunnable10, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler10.removeCallbacks(buttonRunnable10);
-                }
-            }
-        });
-
-        toggleButtonGame11.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame11.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler11.postDelayed(buttonRunnable11, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler11.removeCallbacks(buttonRunnable11);
-                }
-            }
-        });
-
-        toggleButtonGame12.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame12.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler12.postDelayed(buttonRunnable12, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler12.removeCallbacks(buttonRunnable12);
-                }
-            }
-        });
-
-        toggleButtonGame13.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame13.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler13.postDelayed(buttonRunnable13, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler13.removeCallbacks(buttonRunnable13);
-                }
-            }
-        });
-
-        toggleButtonGame14.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame14.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler14.postDelayed(buttonRunnable14, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler14.removeCallbacks(buttonRunnable14);
-                }
-            }
-        });
-
-        toggleButtonGame15.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame15.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler15.postDelayed(buttonRunnable15, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler15.removeCallbacks(buttonRunnable15);
-                }
-            }
-        });
-
-        toggleButtonGame16.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(toggleButtonGame16.isChecked()) {
-                    if(gameSounds) {
-                        toggleButtonOn.play(toggleButtonSoundOn, 1, 1, 0, 0, 1);
-                    }
-                    buttonHandler16.postDelayed(buttonRunnable16, randomTimer.nextInt(buttonSleepTime));
-                } else {
-                    buttonHandler16.removeCallbacks(buttonRunnable16);
-                }
-            }
-        });
     }
 }
